@@ -73,14 +73,16 @@ public class SM2CertDemo {
      * @date 2018-12-21 16:04:58
      */
     public static DERSequence extendedKeyUsage() {
-        // 客户端身份认证
-        ASN1ObjectIdentifier clientAuth = new ASN1ObjectIdentifier("1.3.6.1.5.5.7.3.2");
-        // 安全电子邮件
-        ASN1ObjectIdentifier emailProtection = new ASN1ObjectIdentifier("1.3.6.1.5.5.7.3.4");
+//        // 客户端身份认证
+//        ASN1ObjectIdentifier clientAuth = new ASN1ObjectIdentifier("1.3.6.1.5.5.7.3.2");
+//        // 安全电子邮件
+//        ASN1ObjectIdentifier emailProtection = new ASN1ObjectIdentifier("1.3.6.1.5.5.7.3.4");
         // 构造容器对象
         ASN1EncodableVector vector = new ASN1EncodableVector();
-        vector.add(clientAuth);
-        vector.add(emailProtection);
+        // 客户端身份认证
+        vector.add(KeyPurposeId.id_kp_clientAuth);
+        // 安全电子邮件
+        vector.add(KeyPurposeId.id_kp_emailProtection);
         return new DERSequence(vector);
     }
 
