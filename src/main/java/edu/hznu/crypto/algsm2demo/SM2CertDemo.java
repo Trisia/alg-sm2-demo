@@ -28,6 +28,7 @@ import java.security.*;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -125,7 +126,7 @@ public class SM2CertDemo {
                 // 颁发者信息
                 createStdBuilder().build()
                 // 证书序列号
-                , BigInteger.valueOf(1)
+                , BigInteger.valueOf(Instant.now().toEpochMilli())
                 // 证书生效日期
                 , new Date(System.currentTimeMillis() - 50 * 1000)
                 // 证书失效日期
