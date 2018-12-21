@@ -22,7 +22,14 @@
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.60</version>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.60</version>
+        </dependency>
+
     </dependencies>
+
 
     <build>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->

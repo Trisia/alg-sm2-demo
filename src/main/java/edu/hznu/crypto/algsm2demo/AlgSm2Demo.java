@@ -43,7 +43,7 @@ public class AlgSm2Demo {
         System.out.println("Private key: \n" + Hex.toHexString(privateKey.getEncoded()));
 
         // 生成SM2sign with sm3 签名验签算法实例
-        Signature signature = Signature.getInstance(GMObjectIdentifiers.sm2sign_with_sm3.toString(), new BouncyCastleProvider());
+        Signature signature = Signature.getInstance("SM3withSm2", new BouncyCastleProvider());
 
         /*
         签名
