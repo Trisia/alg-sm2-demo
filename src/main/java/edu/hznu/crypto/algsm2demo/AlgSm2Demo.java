@@ -3,8 +3,10 @@ package edu.hznu.crypto.algsm2demo;
 import org.bouncycastle.asn1.gm.GMNamedCurves;
 import org.bouncycastle.asn1.gm.GMObjectIdentifiers;
 import org.bouncycastle.asn1.x9.X9ECParameters;
+import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
+import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.util.encoders.Hex;
 
 import java.nio.charset.StandardCharsets;
@@ -12,6 +14,7 @@ import java.security.*;
 
 /**
  * SM2 算法 Demo
+ *
  * @author Cliven
  * @date 2018-12-20 10:42:22
  */
@@ -37,8 +40,21 @@ public class AlgSm2Demo {
         // 获取密钥对
         KeyPair keyPair = gen.generateKeyPair();
         PublicKey publicKey = keyPair.getPublic();
-        PrivateKey privateKey = keyPair.getPrivate( );
-     
+        PrivateKey privateKey = keyPair.getPrivate();
+
+        // ------------------------ SM2未压缩公钥 ----------------------------
+        // 椭圆曲线公钥的点坐标
+        ECPoint pubKeyPointQ = ((BCECPublicKey) publicKey).getQ();
+        System.out.println("X: \n" + pubKeyPointQ.getXCoord());
+        System.out.println("Y: \n" + pubKeyPointQ.getYCoord());
+        // 将其表示为SM2未压缩的公钥为
+        System.out.println("SM2 public key: \n"
+                + "04"
+                + pubKeyPointQ.getXCoord().toString()
+                + pubKeyPointQ.getYCoord().toString()
+        );
+        // ------------------------ SM2未压缩公钥 -------------------------------
+
         System.out.println("Public key: \n" + Hex.toHexString(publicKey.getEncoded()));
         System.out.println("Private key: \n" + Hex.toHexString(privateKey.getEncoded()));
 
@@ -51,7 +67,7 @@ public class AlgSm2Demo {
         // 签名需要使用私钥，使用私钥 初始化签名实例
         signature.initSign(privateKey);
         // 签名原文
-        byte[] plainText = "Hello world".getBytes(StandardCharsets.UTF_8);
+        byte[] plainText = "你好".getBytes(StandardCharsets.UTF_8);
         // 写入签名原文到算法中
         signature.update(plainText);
         // 计算签名值
