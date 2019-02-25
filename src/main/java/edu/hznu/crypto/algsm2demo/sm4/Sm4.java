@@ -8,7 +8,7 @@ import org.bouncycastle.util.encoders.Hex;
 import java.util.Arrays;
 
 /**
- * @author 权观宇
+ * @author Cliven
  * @date 2019-02-24 15:48
  */
 public class Sm4 {
@@ -87,7 +87,7 @@ public class Sm4 {
      * @param x3 输入参数 X3
      * @param rk 轮密钥
      * @return 轮函数结果 字（2^32）
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-02-24 16:19:56
      */
     public int F(int x0, int x1, int x2, int x3, int rk) {
@@ -116,7 +116,7 @@ public class Sm4 {
      *
      * @param b 变换参数
      * @return 变换结果字 (2 ^ 32)
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-02-24 16:30:10
      */
     private int L(int b) {
@@ -130,7 +130,7 @@ public class Sm4 {
      *
      * @param a 变换参数
      * @return 变换结果字 (2 ^ 32)
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-02-25 12:31:23
      */
     private int tau(int a) {
@@ -190,7 +190,7 @@ public class Sm4 {
      *
      * @param b 变换字
      * @return 变换后的字
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-2-25 12:23:38
      */
     private int Tba(int b) {
@@ -204,7 +204,7 @@ public class Sm4 {
      *
      * @param b 待变换字
      * @return 变换结果字
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-02-25 12:22:52
      */
     private int Lba(int b) {
@@ -218,7 +218,7 @@ public class Sm4 {
      * @param mk     密钥
      * @param encryp 是否是加密模式
      * @return 密钥序列 rk
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-02-24 18:33:32
      */
     private int[] getRk(int[] mk, boolean encryp) {
@@ -259,7 +259,7 @@ public class Sm4 {
      *
      * @param x 序列X
      * @return 反序列
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-02-24 18:01:23
      */
     private int[] R(int[] x) {
@@ -307,7 +307,7 @@ public class Sm4 {
      * @param ciphertext 密文
      * @param key 密钥
      * @return 明文
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-02-25 12:49:59
      */
     public byte[] sm4Dec(byte[] ciphertext, byte[] key) {
@@ -334,7 +334,7 @@ public class Sm4 {
      *
      * @param b 字节数组
      * @return 32bit的元组
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-02-24 18:51:37
      */
     private static int[] byteToInt32(byte[] b) {
@@ -353,7 +353,7 @@ public class Sm4 {
      *
      * @param int32Array 待转32元组
      * @return 对应的字节序列
-     * @author 权观宇
+     * @author Cliven
      * @date 2019-02-24 19:01:02
      */
     private static byte[] int32ToByte(int[] int32Array) {
