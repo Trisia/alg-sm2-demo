@@ -1,13 +1,8 @@
 package edu.hznu.crypto.algsm2demo.sm4;
 
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
-import org.bouncycastle.util.Pack;
-import org.bouncycastle.util.encoders.Hex;
-
-import java.util.Arrays;
-
 /**
+ * 根据 GM/T 0002-2012 SM4分组加密算法，实现了SM4加密/解密
  * @author Cliven
  * @date 2019-02-24 15:48
  */
@@ -213,10 +208,12 @@ public class Sm4 {
     }
 
     /**
+     * 密钥扩展算法
+     * <p>
      * 轮密钥生成
      *
      * @param mk     密钥
-     * @param encryp 是否是加密模式
+     * @param encryp true - 生成加密轮密钥；false - 解密轮密钥
      * @return 密钥序列 rk
      * @author Cliven
      * @date 2019-02-24 18:33:32
@@ -235,8 +232,13 @@ public class Sm4 {
         k[3] = mk[3] ^ FK[3];
 
         for (int i = 0; i < 32; i++) {
+            // rki = Ki+4  = Ki⊕T'(Ki+1⊕Ki+2⊕Ki+3⊕CKi)
             k[i + 4] = k[i] ^ Tba(k[i + 1] ^ k[i + 2] ^ k[i + 3] ^ CK[i]);
-
+            /*
+             * 判断加密模式
+             * encryp 为true 表示生成加密轮密钥
+             * encryp 为false 表示生成解密轮密钥
+             */
             if (encryp) {
                 rk[i] = k[i + 4];
             } else {
@@ -304,8 +306,9 @@ public class Sm4 {
 
     /**
      * SM4 解密
+     *
      * @param ciphertext 密文
-     * @param key 密钥
+     * @param key        密钥
      * @return 明文
      * @author Cliven
      * @date 2019-02-25 12:49:59
