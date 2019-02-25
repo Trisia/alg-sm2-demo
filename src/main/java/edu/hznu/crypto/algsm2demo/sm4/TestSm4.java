@@ -49,7 +49,10 @@ public class TestSm4 {
         byte[] res = sm4.sm4Enc(plaintext, key);
         System.out.println();
         System.out.println("输出密文：" + HexBin.encode(res));
-        System.out.println("Result is right: " + Arrays.equals(res, ciphertext));
+        // 解密
+        res = sm4.sm4Dec(res, key);
+        // 比对原文
+        System.out.println("Result is right: " + Arrays.equals(plaintext, res));
     }
 
     public static void test1000000() {
@@ -83,5 +86,6 @@ public class TestSm4 {
 
     public static void main(String[] args) {
         test1000000();
+//        testSigle();
     }
 }

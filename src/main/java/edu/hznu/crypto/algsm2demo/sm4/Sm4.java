@@ -146,7 +146,7 @@ public class Sm4 {
      * <p>
      * 加密算法由32次迭代运算和1次反序列变换R组成
      *
-     * @param x      明文
+     * @param x      明文或密文
      * @param mk     密钥
      * @param encryp 是否是加密模式；true - 加密； false - 解密；
      * @return 密文
@@ -279,7 +279,7 @@ public class Sm4 {
     }
 
     /**
-     * 运行单次SM4 加密
+     * SM4 加密
      *
      * @param plaintext 明文
      * @param key       密钥
@@ -300,6 +300,33 @@ public class Sm4 {
         int[] y = crypto(x, mk, true);
         // 类型转换
         return int32ToByte(y);
+    }
+
+    /**
+     * SM4 解密
+     * @param ciphertext 密文
+     * @param key 密钥
+     * @return 明文
+     * @author 权观宇
+     * @date 2019-02-25 12:49:59
+     */
+    public byte[] sm4Dec(byte[] ciphertext, byte[] key) {
+
+        if (ciphertext == null || ciphertext.length != 16) {
+            throw new IllegalArgumentException("ciphertext illegal it should be 16Byte(128Bit)");
+        }
+        if (key == null || key.length != 16) {
+            throw new IllegalArgumentException("key illegal it should be 16Byte(128Bit)");
+        }
+        // 设置输入明文或密文(X0, X1, X2, X3)∈(2^32)^4|(Y0, Y1, Y2, Y3)∈(2^32)^4
+
+        int[] y = byteToInt32(ciphertext);
+        // 设置密钥
+        int[] mk = byteToInt32(key);
+        // 加密
+        int[] x = crypto(y, mk, false);
+        // 类型转换
+        return int32ToByte(x);
     }
 
     /**
@@ -330,10 +357,6 @@ public class Sm4 {
      * @date 2019-02-24 19:01:02
      */
     private static byte[] int32ToByte(int[] int32Array) {
-
-        if (int32Array == null || int32Array.length != 4) {
-            throw new IllegalArgumentException("int array must be 4 length");
-        }
         byte[] res = new byte[16];
         for (int i = 0; i < 4; i++) {
             res[i * 4] = (byte) ((int32Array[i] >> 24) & 0xFF);
