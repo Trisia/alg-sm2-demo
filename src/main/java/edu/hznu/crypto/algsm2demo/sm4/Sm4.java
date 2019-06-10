@@ -63,7 +63,7 @@ public class Sm4 {
      * @param bits 移动位数
      * @return 移动完成的数
      */
-    private int rotateLeft(int x, int bits) {
+    private static int rotateLeft(int x, int bits) {
         return (x << bits) | (x >>> (32 - bits));
     }
 
@@ -85,7 +85,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-02-24 16:19:56
      */
-    public int F(int x0, int x1, int x2, int x3, int rk) {
+    public static int F(int x0, int x1, int x2, int x3, int rk) {
         // X0 ⊕ T(X1 ⊕ X2 ⊕ X3 ⊕ rk)
         return x0 ^ T(x1 ^ x2 ^ x3 ^ rk);
     }
@@ -100,7 +100,7 @@ public class Sm4 {
      * @param var 转置参数，X0 ⊕ T(X1 ⊕ X2 ⊕ X3 ⊕ rk)
      * @return 转置字 (2^32)
      */
-    private int T(int var) {
+    private static int T(int var) {
         return L(tau(var));
     }
 
@@ -114,7 +114,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-02-24 16:30:10
      */
-    private int L(int b) {
+    private static int L(int b) {
         // B⊕(B<<<2)⊕(B<<<10)⊕(B<<<18)⊕(B<<<24)
         return b ^ rotateLeft(b, 2) ^ rotateLeft(b, 10) ^ rotateLeft(b, 18) ^ rotateLeft(b, 24);
     }
@@ -128,7 +128,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-02-25 12:31:23
      */
-    private int tau(int a) {
+    private static int tau(int a) {
         int b0 = Sbox[(a >> 24) & 0xFF] & 0xFF;
         int b1 = Sbox[(a >> 16) & 0xFF] & 0xFF;
         int b2 = Sbox[(a >> 8) & 0xFF] & 0xFF;
@@ -146,7 +146,7 @@ public class Sm4 {
      * @param encryp 是否是加密模式；true - 加密； false - 解密；
      * @return 密文
      */
-    private int[] crypto(int[] x, int[] mk, boolean encryp) {
+    static int[] crypto(int[] x, int[] mk, boolean encryp) {
 
         // 轮运算结果值临时变量
         int xTmp = 0;
@@ -188,7 +188,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-2-25 12:23:38
      */
-    private int Tba(int b) {
+    private static int Tba(int b) {
         return Lba(tau(b));
     }
 
@@ -202,7 +202,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-02-25 12:22:52
      */
-    private int Lba(int b) {
+    private static int Lba(int b) {
         // B⊕(B<<<13)⊕(B<<<23)
         return b ^ rotateLeft(b, 13) ^ rotateLeft(b, 23);
     }
@@ -218,7 +218,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-02-24 18:33:32
      */
-    private int[] getRk(int[] mk, boolean encryp) {
+    private static int[] getRk(int[] mk, boolean encryp) {
         int[] rk = new int[32];
         int[] k = new int[32 + 4];
 
@@ -264,7 +264,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-02-24 18:01:23
      */
-    private int[] R(int[] x) {
+    private static int[] R(int[] x) {
         /*
          * 对称交换 1、4 位
          */
@@ -287,7 +287,7 @@ public class Sm4 {
      * @param key       密钥
      * @return 密文
      */
-    public byte[] sm4Enc(byte[] plaintext, byte[] key) {
+    public static byte[] encrypt(byte[] plaintext, byte[] key) {
         if (plaintext == null || plaintext.length != 16) {
             throw new IllegalArgumentException("plaintext illegal it should be 16Byte(128Bit)");
         }
@@ -313,7 +313,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-02-25 12:49:59
      */
-    public byte[] sm4Dec(byte[] ciphertext, byte[] key) {
+    public static byte[] decrypt(byte[] ciphertext, byte[] key) {
 
         if (ciphertext == null || ciphertext.length != 16) {
             throw new IllegalArgumentException("ciphertext illegal it should be 16Byte(128Bit)");
@@ -331,7 +331,6 @@ public class Sm4 {
         // 类型转换
         return int32ToByte(x);
     }
-
     /**
      * 字节数组转为32位元组
      *
@@ -340,7 +339,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-02-24 18:51:37
      */
-    private static int[] byteToInt32(byte[] b) {
+    static int[] byteToInt32(byte[] b) {
         int[] int32Array = new int[4];
         for (int i = 0; i < 4; i++) {
             int32Array[i] = (b[i * 4 + 3]) & 0xFF |
@@ -359,7 +358,7 @@ public class Sm4 {
      * @author Cliven
      * @date 2019-02-24 19:01:02
      */
-    private static byte[] int32ToByte(int[] int32Array) {
+    static byte[] int32ToByte(int[] int32Array) {
         byte[] res = new byte[16];
         for (int i = 0; i < 4; i++) {
             res[i * 4] = (byte) ((int32Array[i] >> 24) & 0xFF);

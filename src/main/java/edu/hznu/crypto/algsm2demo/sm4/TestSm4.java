@@ -28,7 +28,6 @@ public class TestSm4 {
     private static final String ciphertextStr1000000 = "59 52 98 C7 C6 FD 27 1F 04 02 F8 04 C3 3D 3F 66";
 
     public static void testSigle() {
-        Sm4 sm4 = new Sm4();
         // 输入明文
         System.out.println("输入明文：" + plaintextStr);
         byte[] plaintext = HexBin.decode(
@@ -46,17 +45,16 @@ public class TestSm4 {
                         .replace(" ", ""));
         System.out.println("轮密钥与每轮输出状态：");
         // 加密
-        byte[] res = sm4.sm4Enc(plaintext, key);
+        byte[] res = Sm4.encrypt(plaintext, key);
         System.out.println();
         System.out.println("输出密文：" + HexBin.encode(res));
         // 解密
-        res = sm4.sm4Dec(res, key);
+        res = Sm4.decrypt(res, key);
         // 比对原文
         System.out.println("Result is right: " + Arrays.equals(plaintext, res));
     }
 
     public static void test1000000() {
-        Sm4 sm4 = new Sm4();
         // 输入明文
         System.out.println("输入明文：" + plaintextStr);
         byte[] plaintext = HexBin.decode(
@@ -77,7 +75,7 @@ public class TestSm4 {
         // 加密 1000 00 次
         long start = System.currentTimeMillis();
         for (int i = 0; i < 1000000; i++) {
-            res = sm4.sm4Enc(res, key);
+            res = Sm4.encrypt(res, key);
         }
         System.out.println("输出密文：" + HexBin.encode(res));
         System.out.println("Result is right: " + Arrays.equals(res, ciphertext));
