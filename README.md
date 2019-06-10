@@ -31,25 +31,17 @@ SM2算法使用请参考：[《GMT 0009-2012 SM2密码算法使用规范 》](ht
 
 SM2 非对称算法密钥对生成。
 ```java
-// 获取SM2 椭圆曲线推荐参数
-X9ECParameters ecParameters = GMNamedCurves.getByName("sm2p256v1");
-// 构造EC 算法参数
-ECNamedCurveParameterSpec sm2Spec = new ECNamedCurveParameterSpec(
-        // 设置SM2 算法的 OID
-        GMObjectIdentifiers.sm2p256v1.toString()
-        // 设置曲线方程
-        , ecParameters.getCurve()
-        // 椭圆曲线G点
-        , ecParameters.getG()
-        // 大整数N
-        , ecParameters.getN());
-// 创建 密钥对生成器
-KeyPairGenerator gen = KeyPairGenerator.getInstance("EC", new BouncyCastleProvider());
+// 获取SM2椭圆曲线的参数
+final ECGenParameterSpec sm2Spec = new ECGenParameterSpec("sm2p256v1");
+// 获取一个椭圆曲线类型的密钥对生成器
+final KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC", new BouncyCastleProvider());
+// 使用SM2参数初始化生成器
+kpg.initialize(sm2Spec);
 
 // 使用SM2的算法区域初始化密钥生成器
-gen.initialize(sm2Spec, new SecureRandom());
+kpg.initialize(sm2Spec, new SecureRandom());
 // 获取密钥对
-KeyPair keyPair = gen.generateKeyPair();
+KeyPair keyPair = kpg.generateKeyPair();
 ```
 
 关于椭圆曲线的推荐参数请参考  [IETF draft-shen-sm2-ecdsa-02 #appendix-D](https://tools.ietf.org/html/draft-shen-sm2-ecdsa-02#appendix-D)
