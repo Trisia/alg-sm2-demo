@@ -1,10 +1,6 @@
 package edu.hznu.crypto.algsm2demo;
 
-import org.bouncycastle.asn1.gm.GMNamedCurves;
-import org.bouncycastle.asn1.gm.GMObjectIdentifiers;
-import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
@@ -22,7 +18,7 @@ public class SM2KeyGenerateFactory {
      * @return SM2密钥对生成器
      * @throws NoSuchAlgorithmException
      * @author Cliven
-     * @date 2018-12-21 14:08:35
+     * @date 2019-6-10 15:56:36
      */
     public static KeyPairGenerator generator() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
 
