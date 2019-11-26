@@ -33,6 +33,8 @@ import java.security.*;
 import java.security.cert.*;
 import java.security.cert.Certificate;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -94,9 +96,9 @@ public class SM2SubCertGenerateDemo {
                 // 证书序列号
                 , BigInteger.valueOf(Instant.now().toEpochMilli())
                 // 证书生效日期
-                , new Date(System.currentTimeMillis() - 50 * 1000)
-                // 证书失效日期
-                , new Date(System.currentTimeMillis() + 50 * 1000)
+                , Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
+                // 证书失效日期(3小时后)
+                , Date.from(LocalDateTime.now().plusHours(3).atZone(ZoneId.systemDefault()).toInstant())
                 // 使用者信息
                 , subject
                 // 证书公钥

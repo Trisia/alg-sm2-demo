@@ -18,15 +18,19 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.bouncycastle.util.encoders.Base64;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -77,9 +81,9 @@ public class SM2CARootKeyStoreDemo {
                 // 证书序列号
                 , BigInteger.valueOf(Instant.now().toEpochMilli())
                 // 证书生效日期
-                , new Date(System.currentTimeMillis() - 50 * 1000)
-                // 证书失效日期
-                , new Date(System.currentTimeMillis() + 50 * 1000)
+                , Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
+                // 证书失效日期(3小时后)
+                , Date.from(LocalDateTime.now().plusHours(3).atZone(ZoneId.systemDefault()).toInstant())
                 // 使用者信息（PS：由于是自签证书，所以颁发者和使用者DN都相同）
                 , dn()
                 // 证书公钥
@@ -122,9 +126,11 @@ public class SM2CARootKeyStoreDemo {
         char[] pwd = "123456".toCharArray();
         // 3.2 写入证书以及公钥
         store.setKeyEntry("private", pk.getPrivate(), pwd, new Certificate[]{rootCert});
-        try (FileOutputStream out = new FileOutputStream(file)) {
+        try (FileOutputStream out = new FileOutputStream(file);
+             FileWriter fw = new FileWriter("ROOT.cer")) {
             // 3.3 加密写入文件
             store.store(out, pwd);
+            fw.write(Base64.toBase64String(rootCert.getEncoded()));
         }
     }
 }

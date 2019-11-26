@@ -29,6 +29,8 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -130,9 +132,9 @@ public class SM2CertDemo {
                 // 证书序列号
                 , BigInteger.valueOf(Instant.now().toEpochMilli())
                 // 证书生效日期
-                , new Date(System.currentTimeMillis() - 50 * 1000)
-                // 证书失效日期
-                , new Date(System.currentTimeMillis() + 50 * 1000)
+                , Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
+                // 证书失效日期(5分钟)
+                , Date.from(LocalDateTime.now().plusMinutes(5).atZone(ZoneId.systemDefault()).toInstant())
                 // 使用者信息（PS：由于是自签证书，所以颁发者和使用者DN都相同）
                 , createStdBuilder().build()
                 // 证书公钥
