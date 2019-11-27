@@ -26,7 +26,7 @@ import java.security.*;
  * @author 权观宇
  * @since 2019-11-26 16:25:03
  */
-public class SM2PCKS10Tools {
+public class SM2PKCS10Tools {
 
     /**
      * @return 证书请求识别名称 （也就是证书的Subject）

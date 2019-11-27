@@ -10,25 +10,20 @@ import org.bouncycastle.asn1.x509.KeyPurposeId;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.jce.X509KeyUsage;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
-import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import org.bouncycastle.pkcs.PKCSException;
 import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequest;
 import org.bouncycastle.util.encoders.Base64;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.*;
 import java.security.cert.*;
 import java.security.cert.Certificate;
@@ -76,7 +71,7 @@ public class SM2SubCertGenerateDemo {
     public static X509Certificate issue(String p10Str, Certificate root, PrivateKey privateKey) throws CertificateException, IOException, NoSuchAlgorithmException, InvalidKeyException, OperatorCreationException, PKCSException {
 
         // 1. 验证PKCS10 是否有效
-        boolean isValid = SM2PCKS10Tools.verifyP10(p10Str);
+        boolean isValid = SM2PKCS10Tools.verifyP10(p10Str);
         if (!isValid) {
             throw new IllegalArgumentException("非法的P10请求");
         }
