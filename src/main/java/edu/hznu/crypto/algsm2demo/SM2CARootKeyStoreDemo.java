@@ -83,7 +83,7 @@ public class SM2CARootKeyStoreDemo {
                 // 证书生效日期
                 , Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
                 // 证书失效日期(3小时后)
-                , Date.from(LocalDateTime.now().plusHours(3).atZone(ZoneId.systemDefault()).toInstant())
+                , Date.from(LocalDateTime.now().plusMonths(3).atZone(ZoneId.systemDefault()).toInstant())
                 // 使用者信息（PS：由于是自签证书，所以颁发者和使用者DN都相同）
                 , dn()
                 // 证书公钥

@@ -77,7 +77,9 @@ public class SM2SubCertGenerateDemo {
 
         // 1. 验证PKCS10 是否有效
         boolean isValid = SM2PCKS10Tools.verifyP10(p10Str);
-
+        if (!isValid) {
+            throw new IllegalArgumentException("非法的P10请求");
+        }
         // 2. 解析PKCS10
         byte[] p10Der = Base64.decode(p10Str);
         JcaPKCS10CertificationRequest req = new JcaPKCS10CertificationRequest(p10Der)
