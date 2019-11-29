@@ -94,8 +94,8 @@ public class SM2SubCertGenerateDemo {
                 , BigInteger.valueOf(Instant.now().toEpochMilli())
                 // 证书生效日期
                 , Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
-                // 证书失效日期(3小时后)
-                , Date.from(LocalDateTime.now().plusHours(3).atZone(ZoneId.systemDefault()).toInstant())
+                // 证书失效日期(5天后)
+                , Date.from(LocalDateTime.now().plusDays(5).atZone(ZoneId.systemDefault()).toInstant())
                 // 使用者信息
                 , subject
                 // 证书公钥

@@ -52,10 +52,9 @@ public class SM2KeyStoreUseDemo {
         System.out.println("|             Go Go Certificate!             |");
         System.out.println();
 
-        String keyPath = scanIn("请输入P12存储路径:");
+        String keyPath = scanIn("请输入P12存储路径:(ROOT.p12)");
         if (keyPath.trim().length() == 0) {
-            System.err.println("P12文件路径为空");
-            return;
+            keyPath = "ROOT.p12";
         }
         File file = new File(keyPath);
         if (!file.exists()) {
@@ -63,10 +62,9 @@ public class SM2KeyStoreUseDemo {
             return;
         }
 
-        String outPath = scanIn("请输入签发证书存储路径:");
+        String outPath = scanIn("请输入签发证书存储路径:(user.cer)");
         if (outPath.trim().length() == 0) {
-            System.err.println("证书生成路径为空");
-            return;
+            outPath = "user.cer";
         }
         File out = new File(outPath);
 
@@ -90,7 +88,11 @@ public class SM2KeyStoreUseDemo {
         try (FileInputStream fIn = new FileInputStream(keyPath);
              FileWriter fw = new FileWriter(out)) {
 
-            char[] pwd = scanIn("输入P12(KeyStore)密码:").toCharArray();
+            char[] pwd = scanIn("输入P12(KeyStore)密码:(123456)").toCharArray();
+            if (pwd.length == 0) {
+                pwd = new char[]{'1', '2', '3', '4', '5', '6'};
+            }
+
             store.load(fIn, pwd);
             // 2. 取得CA根证书
             Certificate root = store.getCertificateChain("private")[0];
@@ -103,7 +105,7 @@ public class SM2KeyStoreUseDemo {
                     + " 至 "
                     + SDF.format(holder.getNotAfter()));
             System.out.println();
-            System.out.println("注：签发证书默认有效时长为 3小时");
+            System.out.println("注：签发证书默认有效时长为 5天");
             System.out.println();
 
             String p10 = scanIn("请输入P10:");
