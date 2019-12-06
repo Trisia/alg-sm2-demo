@@ -74,12 +74,12 @@ public class TestSm4 {
         byte[] res = plaintext;
         // 加密 1000 00 次
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < 10000000; i++) {
             res = Sm4.encrypt(res, key);
         }
         System.out.println("输出密文：" + HexBin.encode(res));
         System.out.println("Result is right: " + Arrays.equals(res, ciphertext));
-        System.out.printf("Cost time: %f s\n", (System.currentTimeMillis() - start) / 1000.0);
+        System.out.printf("Cost time: %d ms\n", System.currentTimeMillis() - start);
     }
 
     public static void main(String[] args) {
