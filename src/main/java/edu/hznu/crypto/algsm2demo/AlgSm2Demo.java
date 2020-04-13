@@ -7,6 +7,7 @@ import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 import org.bouncycastle.math.ec.ECPoint;
+import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.util.encoders.Hex;
 
 import java.nio.charset.StandardCharsets;
@@ -33,6 +34,7 @@ public class AlgSm2Demo {
         PublicKey publicKey = keyPair.getPublic();
         PrivateKey privateKey = keyPair.getPrivate();
 
+
         // ------------------------ SM2未压缩公钥 ----------------------------
         // 椭圆曲线公钥的点坐标
         ECPoint pubKeyPointQ = ((BCECPublicKey) publicKey).getQ();
@@ -48,6 +50,9 @@ public class AlgSm2Demo {
 
         System.out.println("Public key: \n" + Hex.toHexString(publicKey.getEncoded()));
         System.out.println("Private key: \n" + Hex.toHexString(privateKey.getEncoded()));
+
+        System.out.println(">> 公钥BASE64: " + Base64.toBase64String(publicKey.getEncoded()));
+        System.out.println(">> 私钥BASE64: " + Base64.toBase64String(privateKey.getEncoded()));
 
         // 生成SM2sign with sm3 签名验签算法实例
         Signature signature = Signature.getInstance("SM3withSm2", new BouncyCastleProvider());
