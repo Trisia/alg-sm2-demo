@@ -59,17 +59,21 @@ public class SM2PKCS10Tools {
      * @throws OperatorCreationException
      */
     public static PKCS10CertificationRequest generate(KeyPair kp, X500Name subject) throws OperatorCreationException {
+        return generate("SM3withSM2", kp, subject);
+
+    }
+
+    public static PKCS10CertificationRequest generate(String alg, KeyPair kp, X500Name subject) throws OperatorCreationException {
         // 构造请求信息，主要是由“实体”的DN和公钥构成
         PKCS10CertificationRequestBuilder requestBuilder =
                 new JcaPKCS10CertificationRequestBuilder(subject, kp.getPublic());
         // 使用“实体”私钥对请求的信息进行签名,然后组装成ASN.1对象
         return requestBuilder.build(
-                new JcaContentSignerBuilder("SM3withSM2")
+                new JcaContentSignerBuilder(alg)
                         .setProvider("BC")
                         .build(kp.getPrivate()));
 
     }
-
 
     /**
      * 验证PKCS10
