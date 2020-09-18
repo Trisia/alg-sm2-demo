@@ -68,7 +68,7 @@ public class AlgSm2Demo {
         signature.update(plainText);
         // 计算签名值
         byte[] signatureValue = signature.sign();
-        System.out.println("signature: \n" + Hex.toHexString(signatureValue));
+        System.out.printf("signature[%d]: %s\n", signatureValue.length, Hex.toHexString(signatureValue));
 
         /*
          * 验签
